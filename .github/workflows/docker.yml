@@ -12,7 +12,7 @@ permissions:
 env:
   IMAGE_NAME: ghcr.io/${{ github.repository }}
   CACHE_IMAGE: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/zad2-cache:buildcache
-  LOCAL_IMAGE: localhost:5000/${{ github.repository }}:${{ github.sha }}
+  LOCAL_IMAGE: localhost:5000/myapp:latest
 
 jobs:
   build-scan-push:
@@ -60,7 +60,7 @@ jobs:
 
       - name: Scan amd64 image with Trivy
         run: |
-          docker run --rm --network host aquasec/trivy:0.69.3 image \
+          docker run --rm --network host aquasec/trivy:latest image \
             --platform linux/amd64 \
             --severity HIGH,CRITICAL \
             --exit-code 1 \
@@ -69,7 +69,7 @@ jobs:
 
       - name: Scan arm64 image with Trivy
         run: |
-          docker run --rm --network host aquasec/trivy:0.69.3 image \
+          docker run --rm --network host aquasec/trivy:latest image \
             --platform linux/arm64 \
             --severity HIGH,CRITICAL \
             --exit-code 1 \
